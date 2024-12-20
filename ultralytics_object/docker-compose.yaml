@@ -1,0 +1,16 @@
+version: "3"
+services:
+  person:
+    image: iot-mqtt-box:latest
+    volumes:
+      - /opt/sunshine/trained_model/ultralytics/:/opt/sunshine/trained_model/ultralytics/
+      - /opt/sunshine/python/iot_mqtt_server/ultralytics_object/config/config.yaml:/root/ultralytics_object/config/config.yaml
+    restart: always
+#  person-arm:
+#    image: fushengwuyu/iot_mqtt_box:arm
+#    runtime: nvidia
+#    deploy:
+#      replicas: 2
+#    volumes:
+#      - /sdk/sunshine/trained_model/ultralytics/tensorrt/:/sdk/sunshine/trained_model/ultralytics/tensorrt/
+#      - /sdk/sunshine/python/iot_mqtt_server/ultralytics_object/config/config.yaml:/root/ultralytics_object/config/config.yaml

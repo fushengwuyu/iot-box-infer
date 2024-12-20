@@ -1,0 +1,47 @@
+basic:
+  model_name: person  # 模型名称，alarm中已经支持的模型，interaction开头的模型名称为交互性模型，如人在车上。
+  engine_path: /opt/sunshine/trained_model/ultralytics/onnx/person.onnx  # 模型地址
+#  engine_path: /root/models/person.trt  # 模型地址
+  confidence_thre: 0.5  #阈值
+  nms_iou: 0.7  #  # 并交比
+  distinct: 0  # 在时间间隔内去除重复告警，单位秒
+  logging_level: 10  # 日志等级，{10： debug， 20： info， 30： WARNING， 40： ERROR，50：CRITICAL }
+
+alarm_map:
+  fire: [ 0, 1 ]
+  workclothes: [ 2, 3, 4 ]
+  hat: [ 0 ]
+  person: [ 0 ]
+  fence: [ 0 ]
+  safebelt: [ 0, 1, 2, 3 ]
+  phone: [ 1 ]
+  fall: [ 0 ]
+  count: [ 0 ]
+
+mqtt:
+  mqtt_host: 192.168.0.175
+  mqtt_port: 2883
+  mqtt_username: kg
+  mqtt_password: "123456"
+  topic_sub_name: /kk/person  # 订阅的topic名称， 共享订阅采用 $$SHARE/qy/test 形式，推送用 test
+#  topic_pub_name: ""   # 消息发送地址，若为空，则使用传入的参数pub_name的值作为消息发送地址
+  topic_heart: ''  # 发送心跳的topic，为空则不启用心跳
+  heart_interval: 5  # 心跳发送时间间隔，若启动心跳，该参数才生效
+  mqtt_queue: 100  # mqtt队列长度
+
+
+file_server_type: minio  # [minio, web], 选择不同的类型，配置其对应参数
+
+minio:  # file_server_type为minio，该配置生效
+  minio_ip: 192.168.0.79
+  minio_port: 9000
+  minio_access: minio
+  minio_secret: '12345678'
+  bucket_name: img
+
+web:
+  upload_url: http://192.168.0.174:8080/iot/upload/box/  # 文件服务器地址，file_server_type为web，该配置生效
+
+
+face:
+  face_url: ""  # 人脸识别服务地址，电子围栏启动人脸识别才需要使用，其他任务用不到

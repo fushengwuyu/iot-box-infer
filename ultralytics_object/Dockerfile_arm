@@ -1,0 +1,16 @@
+FROM nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth2.0-py3
+COPY . /root/ultralytics_object/
+
+ENV LANG C.UTF-8
+RUN mkdir ~/.pip
+RUN echo '[global]   \n\
+index-url=https://pypi.tuna.tsinghua.edu.cn/simple \n\
+[install] \n\
+trusted-host=https://pypi.tuna.tsinghua.edu.cn '\
+>> ~/.pip/pip.conf
+# https://elinux.org/Jetson_Zoo#ONNX_Runtime
+RUN pip3 install /root/ultralytics_object/onnxruntime_gpu-1.17.0-cp38-cp38-linux_aarch64.whl
+RUN mv /root/ultralytics_object/libstdc++.so.6.0.32 /lib/aarch64-linux-gnu/libstdc++.so.6.0.32 && rm /lib/aarch64-linux-gnu/libstdc++.so.6 && ln -s /lib/aarch64-linux-gnu/libstdc++.so.6.0.32 /lib/aarch64-linux-gnu/libstdc++.so.6
+RUN pip3 install minio && pip3 install paho-mqtt==1.5.1 && pip install omegaconf
+WORKDIR /root/ultralytics_object/
+CMD python3 run.py
